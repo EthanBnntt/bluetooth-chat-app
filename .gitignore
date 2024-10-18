@@ -12,3 +12,6 @@ web-build/
 
 # macOS
 .DS_Store
+
+# Type definitions for Expo
+expo-env.d.ts
