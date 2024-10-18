@@ -27,7 +27,29 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "react-native-ble-plx",
+        {
+          "isBackgroundEnabled": true,
+          "modes": [
+            "peripheral",
+            "central"
+          ],
+          "bluetoothAlwaysPermission": "Allow $(PRODUCT_NAME) to connect to bluetooth devices"
+        }
+      ],
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": [
+            "BluetoothPeripheral",
+            "LocationAccuracy",
+            "LocationAlways",
+            "LocationWhenInUse"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
