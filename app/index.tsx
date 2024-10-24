@@ -1,84 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, ScrollView } from 'react-native';
-import { Stack } from 'expo-router';
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import WelcomeScreen from './WelcomeScreen';
+import ChatPage from './HomeScreen';
 
-export default function ChatPage() {
-  const [messages, setMessages] = useState<string[]>([]);
-  const [input, setInput] = useState<string>('');
-  const scrollViewRef = useRef<ScrollView>(null);
+const Stack = createStackNavigator();
 
-  const handleSend = () => {
-    if (input.trim()) {
-      setMessages([...messages, input]);
-      setInput('');
-    }
-  };
-
-  useEffect(() => {
-    if (scrollViewRef.current) {
-      scrollViewRef.current.scrollToEnd({ animated: true });
-    }
-  }, [messages]);
-
+const App = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.messagesContainer}>
-        <ScrollView
-          ref={scrollViewRef}
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
-        >
-          {messages.map((message, index) => (
-            <Text key={index} style={styles.message}>
-              {message}
-            </Text>
-          ))}
-        </ScrollView>
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={input}
-          onChangeText={setInput}
-          placeholder="Type a message"
-          placeholderTextColor="#888"
-        />
-        <Button title="Send" onPress={handleSend} color="#007AFF" />
-      </View>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Chat" component={ChatPage} />
+    </Stack.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9f9f9',
-  },
-  messagesContainer: {
-    flex: 1,
-    padding: 10,
-  },
-  message: {
-    padding: 15,
-    backgroundColor: '#0078fe',
-    borderRadius: 20,
-    marginVertical: 5,
-    //alignSelf: 'flex-start',
-    maxWidth: '100%',
-    color: '#fff',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    padding: 10,
-    borderTopWidth: 1,
-    borderColor: '#ddd',
-    backgroundColor: '#fff',
-  },
-  input: {
-    flex: 1,
-    borderWidth: 0, // Removed the border
-    borderRadius: 20,
-    padding: 10,
-    marginRight: 10,
-    backgroundColor: '#fff',
-  },
-});
+export default App;
