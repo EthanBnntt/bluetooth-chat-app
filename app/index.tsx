@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, ScrollView, Pressable } from 'react-native';
 import { Stack } from 'expo-router';
 
 export default function ChatPage() {
@@ -42,7 +42,9 @@ export default function ChatPage() {
           placeholder="Type a message"
           placeholderTextColor="#888"
         />
-        <Button title="Send" onPress={handleSend} color="#007AFF" />
+        <Pressable style={styles.sendButton} onPress={handleSend}>
+          <Text style={styles.sendText}>SEND</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -80,5 +82,18 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 10,
     backgroundColor: '#fff',
+  },
+  sendButton: {
+    backgroundColor: '#0078fe',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+  },
+  sendText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
