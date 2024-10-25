@@ -14,6 +14,10 @@ export default function ChatPage() {
     }
   };
 
+  const clearScrollView = () => {
+    setMessages([]);
+  };
+
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
@@ -22,6 +26,16 @@ export default function ChatPage() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText}>
+          Chat Room
+        </Text>
+        <Pressable style={styles.clearButton} onPress={clearScrollView}>
+          <Text style={styles.clearText}>
+            CLEAR
+          </Text>
+        </Pressable>
+      </View>
       <View style={styles.messagesContainer}>
         <ScrollView
           ref={scrollViewRef}
@@ -43,7 +57,9 @@ export default function ChatPage() {
           placeholderTextColor="#888"
         />
         <Pressable style={styles.sendButton} onPress={handleSend}>
-          <Text style={styles.sendText}>SEND</Text>
+          <Text style={styles.sendText}>
+            SEND
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -62,7 +78,7 @@ const styles = StyleSheet.create({
   message: {
     padding: 15,
     backgroundColor: '#0078fe',
-    borderRadius: 20,
+    borderRadius: 4,
     marginVertical: 5,
     //alignSelf: 'flex-start',
     maxWidth: '100%',
@@ -92,6 +108,35 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   sendText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: '#ddd',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+  titleText: {
+    fontWeight:'bold',
+    fontSize: 24,
+  },
+  clearButton: {
+    backgroundColor: 'red',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+    marginLeft: 20,
+    //zIndex: 500,
+    position: 'absolute',
+    left: 290,
+    top: 2.5,
+  },
+  clearText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
