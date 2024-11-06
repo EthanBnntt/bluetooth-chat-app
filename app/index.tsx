@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, ScrollView, Pressable } from 'react-native';
-import { Stack } from 'expo-router';
+import { Stack, Link } from 'expo-router';
+//import { useNavigation } from '@react-navigation/native'; 
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<string[]>([]);
   const [input, setInput] = useState<string>('');
   const scrollViewRef = useRef<ScrollView>(null);
+  //const navigation=useNavigation()
 
   const handleSend = () => {
     if (input.trim()) {
@@ -27,13 +29,14 @@ export default function ChatPage() {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>
-          Chat Room
-        </Text>
+        <Link href="/help" asChild>
+          <Pressable style={styles.helpButton}>
+            <Text style={styles.helpText}>Help</Text>
+          </Pressable>
+        </Link>
+        <Text style={styles.titleText}>Chat Room</Text>
         <Pressable style={styles.clearButton} onPress={clearScrollView}>
-          <Text style={styles.clearText}>
-            CLEAR
-          </Text>
+          <Text style={styles.clearText}>CLEAR</Text>
         </Pressable>
       </View>
       <View style={styles.messagesContainer}>
@@ -141,4 +144,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  helpButton: {
+    backgroundColor: 'grey',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+    position: 'absolute',
+    left: 3,
+    top: 2.5,
+  },
+  helpText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  }
 });
