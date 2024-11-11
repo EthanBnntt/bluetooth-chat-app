@@ -15,3 +15,11 @@ web-build/
 
 # Type definitions for Expo
 expo-env.d.ts
+
+# Gradle build directories
+build/
+app/build/
+*/build/
+
+# Gradle files
+.gradle/
