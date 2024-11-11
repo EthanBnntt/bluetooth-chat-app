@@ -19,7 +19,55 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        {
+          "name": "android.permission.ACCESS_FINE_LOCATION",
+          "minSdkVersion": 29,
+          "maxSdkVersion": 31
+        },
+        {
+          "name": "android.permission.BLUETOOTH",
+          "maxSdkVersion": 30
+        },
+        {
+          "name": "android.permission.BLUETOOTH_ADVERTISE",
+          "minSdkVersion": 31
+        },
+        {
+          "name": "android.permission.BLUETOOTH_ADMIN",
+          "maxSdkVersion": 30
+        },
+        {
+          "name": "android.permission.BLUETOOTH_SCAN",
+          "minSdkVersion": 31
+        },
+        {
+          "name": "android.permission.BLUETOOTH_CONNECT",
+          "minSdkVersion": 31
+        },
+        {
+          "name": "android.permission.NEARBY_WIFI_DEVICES",
+          "minSdkVersion": 32
+        },
+        {
+          "name": "android.permission.ACCESS_WIFI_STATE",
+          "maxSdkVersion": 31
+        },
+        {
+          "name": "android.permission.CHANGE_WIFI_STATE",
+          "maxSdkVersion": 31
+        },
+        {
+          "name": "android.permission.ACCESS_COARSE_LOCATION",
+          "maxSdkVersion": 28
+        },
+        {
+          "name": "android.permission.NEARBY_WIFI_DEVICES",
+          "minSdkVersion": 32
+        }
+      ],
+      "package": "com.anonymous.bluetoothchatapp"
     },
     "web": {
       "bundler": "metro",
@@ -48,6 +96,16 @@
             "LocationAlways",
             "LocationWhenInUse"
           ]
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          }
         }
       ]
     ],
