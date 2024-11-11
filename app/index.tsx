@@ -34,7 +34,7 @@ export default function ChatPage() {
             <Text style={styles.helpText}>Help</Text>
           </Pressable>
         </Link>
-        <Text style={styles.titleText}>Chat Room</Text>
+        <Text style={styles.titleText}>Chat</Text>
         <Pressable style={styles.clearButton} onPress={clearScrollView}>
           <Text style={styles.clearText}>CLEAR</Text>
         </Pressable>
@@ -159,5 +159,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
-  }
+  },
 });
