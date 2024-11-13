@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Buffer } from 'buffer';
-import { View, Text, StyleSheet, TextInput, Button, ScrollView, Platform, PermissionsAndroid, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, ScrollView, Pressable, PermissionsAndroid, Alert } from 'react-native';
+import { Stack, Link } from 'expo-router';
 
 import { NativeModules, NativeEventEmitter } from 'react-native';
 const { NearbyConnectionModule } = NativeModules;
@@ -13,6 +14,7 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<string[]>([]);
   const [input, setInput] = useState<string>('');
   const scrollViewRef = useRef<ScrollView>(null);
+
   const [connectedDevices, setConnectedDevices] = useState<string[]>([]);
   const [isPermissionGranted, setIsPermissionGranted] = useState(false);
   const [isAdvertising, setIsAdvertising] = useState(false);
@@ -187,6 +189,10 @@ export default function ChatPage() {
     }
   };
 
+  const clearScrollView = () => {
+    setMessages([]);
+  };
+
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
@@ -206,6 +212,17 @@ export default function ChatPage() {
           />
         </View>
       )}
+      <View style={styles.titleContainer}>
+        <Link href="/help" asChild>
+          <Pressable style={styles.helpButton}>
+            <Text style={styles.helpText}>Help</Text>
+          </Pressable>
+        </Link>
+        <Text style={styles.titleText}>Chat</Text>
+        <Pressable style={styles.clearButton} onPress={clearScrollView}>
+          <Text style={styles.clearText}>CLEAR</Text>
+        </Pressable>
+      </View>
       <View style={styles.messagesContainer}>
         <ScrollView
           ref={scrollViewRef}
@@ -226,7 +243,11 @@ export default function ChatPage() {
           placeholder="Type a message"
           placeholderTextColor="#888"
         />
-        <Button title="Send" onPress={handleSend} color="#007AFF" />
+        <Pressable style={styles.sendButton} onPress={handleSend}>
+          <Text style={styles.sendText}>
+            SEND
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -252,7 +273,7 @@ const styles = StyleSheet.create({
   message: {
     padding: 15,
     backgroundColor: '#0078fe',
-    borderRadius: 20,
+    borderRadius: 4,
     marginVertical: 5,
     maxWidth: '100%',
     color: '#fff',
@@ -271,6 +292,64 @@ const styles = StyleSheet.create({
     marginRight: 10,
     backgroundColor: '#fff',
   },
+  sendButton: {
+    backgroundColor: '#0078fe',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+  },
+  sendText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: '#ddd',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+  titleText: {
+    fontWeight:'bold',
+    fontSize: 24,
+  },
+  clearButton: {
+    backgroundColor: 'red',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+    marginLeft: 20,
+    //zIndex: 500,
+    position: 'absolute',
+    left: 290,
+    top: 2.5,
+  },
+  clearText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  helpButton: {
+    backgroundColor: 'grey',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+    position: 'absolute',
+    left: 3,
+    top: 2.5,
+  },
+  helpText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   permissionBanner: {
     backgroundColor: '#ffcc00',
     padding: 15,
@@ -281,5 +360,4 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
-
 });
