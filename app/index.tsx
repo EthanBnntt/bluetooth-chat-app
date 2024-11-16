@@ -213,15 +213,21 @@ export default function ChatPage() {
         </View>
       )}
       <View style={styles.titleContainer}>
-        <Link href="/help" asChild>
-          <Pressable style={styles.helpButton}>
-            <Text style={styles.helpText}>Help</Text>
+        <View style={styles.leftContainer}>
+          <Link href="/help" asChild>
+            <Pressable style={styles.helpButton}>
+              <Text style={styles.helpText}>Help</Text>
+            </Pressable>
+          </Link>
+        </View>
+        <View style={styles.centerContainer}>
+          <Text style={styles.titleText}>Chat</Text>
+        </View>
+        <View style={styles.rightContainer}>
+          <Pressable style={styles.clearButton} onPress={clearScrollView}>
+            <Text style={styles.clearText}>Clear</Text>
           </Pressable>
-        </Link>
-        <Text style={styles.titleText}>Chat</Text>
-        <Pressable style={styles.clearButton} onPress={clearScrollView}>
-          <Text style={styles.clearText}>CLEAR</Text>
-        </Pressable>
+        </View>
       </View>
       <View style={styles.messagesContainer}>
         <ScrollView
@@ -307,11 +313,25 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'row',
-    padding: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     borderTopWidth: 1,
     borderColor: '#ddd',
     backgroundColor: '#fff',
-    justifyContent: 'center',
+  },
+  leftContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  centerContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  rightContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
   },
   titleText: {
     fontWeight:'bold',
@@ -323,11 +343,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 4,
-    marginLeft: 20,
-    //zIndex: 500,
-    position: 'absolute',
-    left: 290,
-    top: 2.5,
   },
   clearText: {
     color: 'white',
@@ -341,9 +356,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 4,
-    position: 'absolute',
-    left: 3,
-    top: 2.5,
   },
   helpText: {
     color: 'white',
