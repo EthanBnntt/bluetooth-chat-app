@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Buffer } from 'buffer';
-import { View, Text, StyleSheet, TextInput, Button, ScrollView, Pressable, PermissionsAndroid, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, ScrollView, Pressable, PermissionsAndroid, Alert, Platform } from 'react-native';
 import { Stack, Link } from 'expo-router';
 
 import { NativeModules, NativeEventEmitter } from 'react-native';
