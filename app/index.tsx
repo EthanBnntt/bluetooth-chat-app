@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Buffer } from 'buffer';
-import { View, Text, StyleSheet, TextInput, Button, ScrollView, Pressable, PermissionsAndroid, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, ScrollView, Pressable, PermissionsAndroid, Alert, Platform } from 'react-native';
 import { Stack, Link } from 'expo-router';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 import { NativeModules, NativeEventEmitter } from 'react-native';
 const { NearbyConnectionModule } = NativeModules;
@@ -215,13 +216,13 @@ export default function ChatPage() {
       <View style={styles.titleContainer}>
         <Link href="/help" asChild>
           <Pressable style={styles.helpButton}>
-            <Text style={styles.helpText}>Help</Text>
+          <FontAwesome6 name={'circle-info'} style={styles.helpText}/>
           </Pressable>
         </Link>
-        <Text style={styles.titleText}>Chat</Text>
         <Pressable style={styles.clearButton} onPress={clearScrollView}>
-          <Text style={styles.clearText}>CLEAR</Text>
+          <FontAwesome6 name={'trash'} style={styles.clearText}/>
         </Pressable>
+        <Text style={styles.titleText}>Chat</Text>
       </View>
       <View style={styles.messagesContainer}>
         <ScrollView
@@ -244,9 +245,7 @@ export default function ChatPage() {
           placeholderTextColor="#888"
         />
         <Pressable style={styles.sendButton} onPress={handleSend}>
-          <Text style={styles.sendText}>
-            SEND
-          </Text>
+        <FontAwesome6 name={'arrow-right'} style={styles.sendText}/>
         </Pressable>
       </View>
     </View>
@@ -268,26 +267,29 @@ const styles = StyleSheet.create({
   },
   messagesContainer: {
     flex: 1,
-    padding: 10,
   },
   message: {
-    padding: 15,
-    backgroundColor: '#0078fe',
-    borderRadius: 4,
-    marginVertical: 5,
+    padding: 5,
+    //backgroundColor: '#0078fe',
+    //marginVertical: 3,
     maxWidth: '100%',
-    color: '#fff',
+    color: 'black',
+    fontSize: 16,
+    borderColor: 'grey',
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
   },
   inputContainer: {
     flexDirection: 'row',
     padding: 10,
     borderTopWidth: 1,
-    borderColor: '#ddd',
+    borderColor: 'grey',
     backgroundColor: '#fff',
+    //marginVertical: 3,
   },
   input: {
     flex: 1,
-    borderRadius: 20,
+    //borderRadius: 20,
     padding: 10,
     marginRight: 10,
     backgroundColor: '#fff',
@@ -298,7 +300,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 4,
+    //borderRadius: 4,
   },
   sendText: {
     color: 'white',
@@ -308,26 +310,30 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     padding: 10,
-    borderTopWidth: 1,
-    borderColor: '#ddd',
+    borderBottomWidth: 1,
+    borderColor: 'grey',
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    //justifyContent: 'center',
+    alignItems:'center',
   },
   titleText: {
     fontWeight:'bold',
     fontSize: 24,
+    marginLeft: 10,
+    //position: 'absolute',
+    //left: '50%',
   },
   clearButton: {
     backgroundColor: 'red',
-    alignItems: 'center',
+    //alignItems: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 4,
-    marginLeft: 20,
+    paddingHorizontal: 12,
+    //borderRadius: 4,
+    //marginLeft: 20,
     //zIndex: 500,
-    position: 'absolute',
-    left: 290,
-    top: 2.5,
+    //position: 'absolute',
+    //left: 290,
+    //top: 2.5,
   },
   clearText: {
     color: 'white',
@@ -339,11 +345,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 4,
-    position: 'absolute',
-    left: 3,
-    top: 2.5,
+    paddingHorizontal: 12,
+    //borderRadius: 4,
+    //position: 'absolute',
+    //left: 3,
+    //top: 2.5,
   },
   helpText: {
     color: 'white',
