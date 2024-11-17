@@ -25,7 +25,19 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="index" />
+        <Stack.Screen name="index" 
+          options={{
+            title: 'Set Username',
+            headerBackVisible: false,
+          }} 
+        />
+        <Stack.Screen 
+          name="chat" 
+          options={{
+            title: 'Chat',
+            headerBackVisible: false,
+          }} 
+        />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="help" />
       </Stack>
