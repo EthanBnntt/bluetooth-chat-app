@@ -238,9 +238,9 @@ export default function ChatPage() {
       )}
       <View style={styles.titleContainer}>
         <View style={styles.leftContainer}>
-          <Link href="/username" asChild>
+          <Link href="/help" asChild>
             <Pressable style={styles.helpButton}>
-              <Text style={styles.helpText}>Name</Text>
+              <Text style={styles.helpText}>Help</Text>
             </Pressable>
           </Link>
         </View>
