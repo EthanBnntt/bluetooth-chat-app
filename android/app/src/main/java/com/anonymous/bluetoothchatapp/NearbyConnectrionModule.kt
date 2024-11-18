@@ -3,20 +3,28 @@ package com.anonymous.bluetoothchatapp
 import android.util.Log
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule
+import com.facebook.react.bridge.LifecycleEventListener
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 
 class NearbyConnectionModule(private val reactContext: ReactApplicationContext) : 
-    ReactContextBaseJavaModule(reactContext) {
+    ReactContextBaseJavaModule(reactContext), LifecycleEventListener {
 
-    private val connectionStrategy = Strategy.P2P_STAR
+    private val connectionStrategy = Strategy.P2P_CLUSTER
     private val connectedEndpoints = mutableSetOf<String>()
     private var isAdvertising = false
+    private var isDiscovering = false
 
     companion object {
         const val MODULE_NAME = "NearbyConnectionModule"
         const val ON_DEVICE_CONNECTED = "ON_DEVICE_CONNECTED"
         const val ON_MESSAGE_RECEIVED = "ON_MESSAGE_RECEIVED"
+        const val SERVICE_UUID = "babcd153-53bf-4067-a559-8955afa63c2e"
+        const val APP_IDENTIFIER = "BluetoothChatApp"
+    }
+
+    init {
+        reactContext.addLifecycleEventListener(this)
     }
 
     override fun getName() = MODULE_NAME
@@ -30,7 +38,6 @@ class NearbyConnectionModule(private val reactContext: ReactApplicationContext) 
     // https://developers.google.com/nearby/connections/android/discover-devices
     @ReactMethod
     fun startAdvertising(serviceId: String, username: String, promise: Promise) {
-        // ! I have no idea why it gives the "you're already advertising" error
         if (isAdvertising) {
             promise.reject("ADVERTISING_ERROR", "Advertising is already started")
             return
@@ -62,29 +69,34 @@ class NearbyConnectionModule(private val reactContext: ReactApplicationContext) 
     // https://developers.google.com/nearby/connections/android/discover-devices
     @ReactMethod
     fun startDiscovery(serviceId: String, promise: Promise) {
+        if (isDiscovering) {
+            promise.reject("DISCOVERY_ERROR", "Discovery is already started")
+            return
+        }
         val discoveryOptions = DiscoveryOptions.Builder()
             .setStrategy(connectionStrategy)
             .build()
 
-        Nearby.getConnectionsClient(reactApplicationContext).stopDiscovery()
+        Nearby.getConnectionsClient(reactContext).stopDiscovery()
 
-        Nearby.getConnectionsClient(reactApplicationContext)
+        Nearby.getConnectionsClient(reactContext)
             .startDiscovery(
                 serviceId,
                 endpointDiscoveryCallback,
                 discoveryOptions
             )
             .addOnSuccessListener {
+                isDiscovering = true
                 promise.resolve("Discovery started")
             }
-            .addOnFailureListener { exception ->
+            .addOnFailureListener { exception: Exception ->
                 promise.reject("DISCOVERY_ERROR", exception.message ?: "Unknown error")
             }
     }
 
     @ReactMethod
     fun sendMessage(endpointId: String, message: String, promise: Promise) {
-        Nearby.getConnectionsClient(reactApplicationContext)
+        Nearby.getConnectionsClient(reactContext)
             .sendPayload(
                 endpointId, 
                 Payload.fromBytes(message.toByteArray())
@@ -97,10 +109,9 @@ class NearbyConnectionModule(private val reactContext: ReactApplicationContext) 
             }
     }
 
-    // https://developers.google.com/nearby/connections/android/manage-connections
     private val connectionLifecycleCallback = object : ConnectionLifecycleCallback() {
         override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
-            Nearby.getConnectionsClient(reactApplicationContext)
+            Nearby.getConnectionsClient(reactContext)
                 .acceptConnection(endpointId, payloadCallback)
 
             val params = Arguments.createMap().apply {
@@ -128,10 +139,9 @@ class NearbyConnectionModule(private val reactContext: ReactApplicationContext) 
         }
     }
 
-    // https://developers.google.com/nearby/connections/android/manage-connections
     private val endpointDiscoveryCallback = object : EndpointDiscoveryCallback() {
         override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
-            Nearby.getConnectionsClient(reactApplicationContext)
+            Nearby.getConnectionsClient(reactContext)
                 .requestConnection(
                     "CurrentUser", 
                     endpointId, 
@@ -158,5 +168,28 @@ class NearbyConnectionModule(private val reactContext: ReactApplicationContext) 
         }
 
         override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) {}
+    }
+
+    // No idea if this code is necessary, but it got some warnings to go away.
+    override fun onHostResume() {
+        // Handle host resume
+    }
+
+    override fun onHostPause() {
+        // Handle host pause
+    }
+
+    override fun onHostDestroy() {
+        // Handle host destroy
+    }
+
+    @ReactMethod
+    fun addListener(eventName: String) {
+        // Set up any upstream listeners or background tasks as necessary
+    }
+
+    @ReactMethod
+    fun removeListeners(count: Int) {
+        // Remove upstream listeners, stop unnecessary background tasks
     }
 }
