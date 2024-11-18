@@ -146,13 +146,13 @@ export default function ChatPage() {
       (event) => {
         // ? Place all the code for handling the received message here
         const decodedMessage = decodeBase64(event.message);
+        console.log("Message received:", decodedMessage);
         if (decodedMessage.username && decodedMessage.text) {
           setMessages(prev => [...prev, `${decodedMessage.username}: ${decodedMessage.text}`]);
         }
       }
     );
 
-    
     const deviceDiscoveredListener = eventEmitter.addListener(
       'ON_DEVICE_DISCOVERED', 
       (event) => {
@@ -182,7 +182,10 @@ export default function ChatPage() {
   }, []);
 
   const broadcastMessage = async (message: string) => {
-    const messageObject = { sender: username, text: message };
+    const messageObject: DecodedMessage = {
+      username,
+      text: message
+    };
     console.log("Broadcasting message:", messageObject);
     try {
       // Send to all connected devices
@@ -276,6 +279,8 @@ export default function ChatPage() {
         <Pressable style={styles.sendButton} onPress={handleSend}>
           <Text style={styles.sendText}>
             SEND
+            {/* Show the number of connected devices */}
+            {connectedDevices.length > 0 && ` (${connectedDevices.length})`}
           </Text>
         </Pressable>
       </View>
