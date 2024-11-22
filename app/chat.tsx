@@ -3,6 +3,7 @@ import { Buffer } from 'buffer';
 import { View, Text, StyleSheet, TextInput, Button, ScrollView, Pressable, PermissionsAndroid, Alert, Platform } from 'react-native';
 import { Stack, Link } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 import { NativeModules, NativeEventEmitter } from 'react-native';
 const { NearbyConnectionModule } = NativeModules;
@@ -240,19 +241,15 @@ export default function ChatPage() {
         </View>
       )}
       <View style={styles.titleContainer}>
-        <View style={styles.leftContainer}>
+        <Text style={styles.titleText}>Chat</Text>
+        <View style={{ flexDirection: 'row' }}>
           <Link href="/help" asChild>
             <Pressable style={styles.helpButton}>
-              <Text style={styles.helpText}>Help</Text>
+              <FontAwesome6 name={'circle-info'} style={styles.helpText}/>
             </Pressable>
           </Link>
-        </View>
-        <View style={styles.centerContainer}>
-          <Text style={styles.titleText}>Chat</Text>
-        </View>
-        <View style={styles.rightContainer}>
           <Pressable style={styles.clearButton} onPress={clearScrollView}>
-            <Text style={styles.clearText}>Clear</Text>
+            <FontAwesome6 name={'trash'} style={styles.clearText}/>
           </Pressable>
         </View>
       </View>
@@ -277,11 +274,7 @@ export default function ChatPage() {
           placeholderTextColor="#888"
         />
         <Pressable style={styles.sendButton} onPress={handleSend}>
-          <Text style={styles.sendText}>
-            SEND
-            {/* Show the number of connected devices */}
-            {connectedDevices.length > 0 && ` (${connectedDevices.length})`}
-          </Text>
+          <FontAwesome6 name={'arrow-right'} style={styles.sendText}/>
         </Pressable>
       </View>
     </View>
@@ -305,26 +298,26 @@ const styles = StyleSheet.create({
   },
   messagesContainer: {
     flex: 1,
-    padding: 10,
   },
   message: {
-    padding: 15,
-    backgroundColor: '#0078fe',
-    borderRadius: 4,
-    marginVertical: 5,
+    padding: 5,
+    marginVertical: 0,
     maxWidth: '100%',
-    color: '#fff',
+    color: 'black',
+    fontSize: 16,
+    borderColor: 'grey',
+    borderTopWidth: 1,
+    borderBottomWidth: 0, // Removed bottom border
   },
   inputContainer: {
     flexDirection: 'row',
     padding: 10,
     borderTopWidth: 1,
-    borderColor: '#ddd',
+    borderColor: 'grey',
     backgroundColor: '#fff',
   },
   input: {
     flex: 1,
-    borderRadius: 20,
     padding: 10,
     marginRight: 10,
     backgroundColor: '#fff',
@@ -335,7 +328,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 4,
+    borderRadius: 10,
   },
   sendText: {
     color: 'white',
@@ -344,36 +337,24 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderTopWidth: 1,
-    borderColor: '#ddd',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: 'grey',
     backgroundColor: '#fff',
-  },
-  leftContainer: {
-    flex: 1,
-    alignItems: 'flex-start',
-  },
-  centerContainer: {
-    flex: 1,
     alignItems: 'center',
-  },
-  rightContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
+    justifyContent: 'space-between',
   },
   titleText: {
-    fontWeight:'bold',
+    fontWeight: 'bold',
     fontSize: 24,
+    marginLeft: 10,
   },
   clearButton: {
     backgroundColor: 'red',
-    alignItems: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 4,
+    paddingHorizontal: 12,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
   },
   clearText: {
     color: 'white',
@@ -385,8 +366,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 4,
+    paddingHorizontal: 12,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   helpText: {
     color: 'white',
